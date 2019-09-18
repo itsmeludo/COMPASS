@@ -1,5 +1,5 @@
 #!/usr/bin/python
-##ARNAUD
+##ARNAUD Felten
 import os
 import sys
 

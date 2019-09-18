@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Plasmid Script 2018/05/30 (LUDO)
+#Plasmid Script 2018/05/30 (LUDO: Ludovic V. Mallet)
 #~/parse_multigenbank_V2.py -i Esearch_genbank_file.gb -t Accession_topology_file.tsv > ids.log
 
 

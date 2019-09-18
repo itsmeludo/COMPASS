@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Plasmid Script 2018/05/30 (LUDO)
+#Plasmid Script 2018/05/30 (LUDO: Ludovic V. Mallet)
 #./complement_multigenbank.py -i 20180613_Plasmid_DB/20180611_plasmidDB_sequence.gb -d 20180613_Plasmid_DB/20180613_sequence22425.seq
 
 

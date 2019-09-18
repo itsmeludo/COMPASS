@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #Parsing multigenbank with bioperl
-#LUDO 
+#LUDO: Ludovic V. Mallet 
 #20180523
 
 
