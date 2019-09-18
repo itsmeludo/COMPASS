@@ -1,0 +1,88 @@
+###PE
+
+
+#Take the example of Salmonella enterica strain F8475 plasmid pF8475, complete sequence
+
+
+FROM Genbank
+you have 
+record.annotations["taxonomy"] --> ['Bacteria', 'Proteobacteria', 'Gammaproteobacteria', 'Enterobacterales', 'Enterobacteriaceae', 'Salmonella']
+
+if feature.type == 'source':
+             taxid = feature.qualifiers["db_xref"][0]
+			 print(taxid)
+28901			 
+
+
+FROM XML file
+<GBSeq_taxonomy>Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacterales; Enterobacteriaceae; Salmonella</GBSeq_taxonomy>
+
+for feature in record["GBSeq_feature-table"]:
+     if feature["GBFeature_key"] == 'source':
+             print(feature["GBFeature_quals"][4]["GBQualifier_value"].strip('taxon:'))
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+COOKBOOK Biopython
+
+9.14.4  Finding the lineage of an organism
+
+Staying with a plant example, let’s now find the lineage of the Cypripedioideae orchid family. First, we search the Taxonomy database for Cypripedioideae, which yields exactly one NCBI taxonomy identifier:
+
+>>> from Bio import Entrez
+>>> Entrez.email = "pierre-emmanuel.douarre@anses.fr"     # Always tell NCBI who you are
+>>> handle = Entrez.esearch(db="Taxonomy", term="Cypripedioideae")
+>>> record = Entrez.read(handle)
+>>> record["IdList"]
+['158330']
+>>> record["IdList"][0]
+'158330'
+
+Now, we use efetch to download this entry in the Taxonomy database, and then parse it:
+
+>>> handle = Entrez.efetch(db="Taxonomy", id="158330", retmode="xml")
+>>> records = Entrez.read(handle)
+
+Again, this record stores lots of information:
+
+>>> records[0].keys()
+['Lineage', 'Division', 'ParentTaxId', 'PubDate', 'LineageEx',
+ 'CreateDate', 'TaxId', 'Rank', 'GeneticCode', 'ScientificName',
+ 'MitoGeneticCode', 'UpdateDate']
+
+We can get the lineage directly from this record:
+
+>>> records[0]["Lineage"]
+'cellular organisms; Eukaryota; Viridiplantae; Streptophyta; Streptophytina;
+ Embryophyta; Tracheophyta; Euphyllophyta; Spermatophyta; Magnoliophyta;
+ Liliopsida; Asparagales; Orchidaceae'
+ 
+ 
+ 
+#Now try with another record from bacteria - Get the taxonomy or lineage from Taxid (taxon number)
+from Bio import Entrez
+Entrez.email = "pierre-emmanuel.douarre@anses.fr"
+filin = Entrez.efetch(db="Taxonomy", id="28901", retmode="xml")
+record = Entrez.read(filin)
+
+for features in record:
+     print(list(features)) 
+
+['UpdateDate', 'Division', 'GeneticCode', 'MitoGeneticCode', 'LineageEx', 'Rank', 'ParentTaxId', 'TaxId', 'PubDate', 'Lineage', 'CreateDate', 'OtherNames', 'ScientificName']
+
+     print(features["Lineage"])
+ 
+cellular organisms; Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacterales; Enterobacteriaceae; Salmonella
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+# http://www.polarmicrobes.org/some-things-should-be-easy/
+
+Solution the second (the fat)
+
+The NCBI taxonomy database can be acquired from the NCBI ftp site at ftp://ftp.ncbi.nih.gov/pub/taxonomy/.  The large gi_taxid_nucl.dmp.gz file is the key to the NCBI taxonomy safe.  It is a simple tab delimited text file mapping a gi number to a taxonomy id number.  With the taxonomy id number (and a little voodoo) you can obtain a full taxonomy for any gi that has one.  Since the gi number is conveniently embedded in the hit id section of the xml (hit_id tag, pry it out with some more regular expressions) the full taxonomy seems so, so close…
+
+A casual user of Python might look at gi_taxid_nucl.dmp (with head, after using gunzip) and think dictionary.  If the whole thing can be crammed into a dictionary with the gi numbers as keys, the taxid can be easily obtained for any given gi number.  Problem is, it can’t be crammed into a dictionary – at least without a lot of trouble.  Python dictionary creation and operation is memory intensive.  24 gigs of RAM is not nearly enough for this.  I did manage to create a dictionary on a high memory machine (150 gigs, it failed when I initially set ulimit -v to 100 gigs) by iterating across each line in gi_taxid_nucl.dmp, saving the result as a pickle (a what you say?  That’s what I said too.  Turns out that pickles, in addition to being tasty fermented cucumbers, are binary flat files.  These files can store things like Python lists and dictionaries), but the resulting pickle couldn’t be utilized on the 24 gig machine.  I’m a guest on the high memory cluster and am reluctant to hog it for what seems like a simple operation, so I needed a different solution…
