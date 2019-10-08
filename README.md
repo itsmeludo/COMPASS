@@ -17,3 +17,10 @@ Uncompress:
 ```Bash
 ./COMPASS/src/uncompress_COMPASS.sh
 ```
+
+
+
+Interactive KRONA plot:
+-----------------------
+
+[Plasmid taxonomy](http://htmlpreview.github.io/?https://github.com/itsmeludo/COMPASS/blob/master/data/KRONA_Plasmid_taxonomy.html)
