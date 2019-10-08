@@ -3,9 +3,17 @@ COMprehensive and COMplete PlASmid databaSe
 
 
 
-download:
+Download:
+---------
+
+```Bash
 git clone https://github.com/itsmeludo/COMPASS.git
+```
 
-uncompress:
 
+Uncompress:
+-----------
+
+```Bash
 ./COMPASS/src/uncompress_COMPASS.sh
+```
