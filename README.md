@@ -1,2 +1,2 @@
 # COMPASS
-Plasmid Database creation and curation
+COMprehensive and COMplete PlASmid databaSe
