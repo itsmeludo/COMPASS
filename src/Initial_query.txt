@@ -1,0 +1,3 @@
+The main search and the keywords used for exclusion are the following:
+Entrez.esearch(db="nucleotide", term="plasmid[filter] bacteria[filter] genomic DNA[filter] plasmid[title] AND complete[title] NOT cds[title] NOT gene[title] NOT DNA[title] NOT genes[title] NOT whole[title] NOT partial[title] NOT insertion[title] NOT putative[title] NOT integron[title] NOT transposon[title] NOT fragment[title] NOT operon[title] NOT region[title] NOT phage[title] NOT replicon[title] NOT locus[title] NOT orf[title] NOT genomic[title] NOT nucleotide[title] NOT contig[title] NOT scaffold[title] NOT artificial[title] NOT synthetic[title] NOT vector[title] NOT rep_origin[title] NOT pseudogene[title] NOT transconjugant[title] NOT island[title]”
+
